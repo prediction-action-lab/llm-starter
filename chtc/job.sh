@@ -24,10 +24,10 @@ export VLLM_ATTENTION_BACKEND=FLASH_ATTN
 export NCCL_P2P_DISABLE=1
 export OUTLINES_CACHE_DIR='/tmp/.outlines'
 export RAY_TMPDIR=/tmp/ray_$USER
+export USER=ncorrado
 
 # fetch code from /staging/
 CODENAME=llm-starter
-export USER=ncorrado
 cp /staging/${USER}/${CODENAME}.tar.gz .
 tar -xzf ${CODENAME}.tar.gz
 rm ${CODENAME}.tar.gz
