@@ -27,7 +27,7 @@ export RAY_TMPDIR=/tmp/ray_$USER
 
 # fetch code from /staging/
 CODENAME=llm-starter
-USER=ncorrado
+export USER=ncorrado
 cp /staging/${USER}/${CODENAME}.tar.gz .
 tar -xzf ${CODENAME}.tar.gz
 rm ${CODENAME}.tar.gz
@@ -49,12 +49,13 @@ python3 verl/examples/data_preprocess/gsm8k.py --local_save_dir ~/data/gsm8k
 PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
   data.train_files=$HOME/data/gsm8k/train.parquet \
   data.val_files=$HOME/data/gsm8k/test.parquet \
-  data.train_batch_size=128 \
-  data.max_prompt_length=512 \
+  +data.truncate=True \
+  data.train_batch_size=64 \
+  data.max_prompt_length=256 \
   data.max_response_length=512 \
   actor_rollout_ref.model.path=Qwen/Qwen2.5-0.5B-Instruct \
   actor_rollout_ref.actor.optim.lr=1e-6 \
-  actor_rollout_ref.actor.ppo_mini_batch_size=64 \
+  actor_rollout_ref.actor.ppo_mini_batch_size=32 \
   actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=4 \
   actor_rollout_ref.rollout.name=vllm \
   actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=8 \
@@ -69,6 +70,11 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
   trainer.val_before_train=False \
   trainer.n_gpus_per_node=1 \
   trainer.nnodes=1 \
-  trainer.save_freq=10 \
-  trainer.test_freq=10 \
-  trainer.total_epochs=15 2>&1 | tee verl_demo.log
+  trainer.save_freq=100 \
+  trainer.test_freq=20 \
+  trainer.total_training_steps=200 \
+  trainer.total_epochs=3 \
+  trainer.logger=['console','wandb'] \
+  trainer.project_name="gsm8k" \
+  trainer.experiment_name="ppo" \
+  2>&1 | tee verl_demo.log
