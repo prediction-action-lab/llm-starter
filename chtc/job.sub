@@ -26,7 +26,7 @@ request_disk            = 200GB
 # Extra GPU settings
 request_gpus            = 4
 #Requirements           = (Target.CUDADriverVersion >= 12.1) && (Target.GPUs_GlobalMemoryMb > 30000)
-requirements            = (Target.HasCHTCStaging == true) && (Target.CUDADriverVersion >= 12.4)
+requirements            = (Target.HasCHTCStaging == true) && (Target.CUDADriverVersion >= 12.1)
 
 # change to true if *not* using staging for checkpoints and interested in accessing GPUs beyond CHTC
 +WantGPULab = true

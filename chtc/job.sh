@@ -33,14 +33,14 @@ fi
 
 # fetch code from /staging/
 CODENAME=llm-starter
-USER=${CHTC_USER}
+export USER=${CHTC_USER}
 cp /staging/${USER}/${CODENAME}.tar.gz .
 tar -xzf ${CODENAME}.tar.gz
 rm ${CODENAME}.tar.gz
 cd ${CODENAME}
 
-wandb login $WANDB_API_KEY
-hf auth login --token $HF_TOKEN
+wandb login ${WANDB_API_KEY}
+hf auth login --token ${HF_TOKEN}
 
 export PYTHONPATH=.:$PYTHONPATH
 git clone https://github.com/verl-project/verl.git -b v0.7.0
@@ -74,7 +74,9 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
   critic.model.path=Qwen/Qwen2.5-0.5B-Instruct \
   critic.ppo_micro_batch_size_per_gpu=4 \
   algorithm.kl_ctrl.kl_coef=0.001 \
-  trainer.logger=console \
+  trainer.logger=['console','wandb'] \
+  trainer.project_name=llm-starter \
+  trainer.experiment_name=gsm8k-test-run \
   trainer.val_before_train=False \
   trainer.n_gpus_per_node=1 \
   trainer.nnodes=1 \
