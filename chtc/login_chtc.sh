@@ -10,4 +10,5 @@ fi
 
 USER=${CHTC_USER}
 HOSTNAME="ap2001.chtc.wisc.edu"
+echo "Attempting to login as: ${USER} to ${HOSTNAME}"
 ssh ${USER}@${HOSTNAME}

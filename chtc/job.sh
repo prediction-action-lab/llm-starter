@@ -1,5 +1,5 @@
 #!/bin/bash
-
+source .env
 pid=$1  # ranges from 0 to num_commands*num_jobs-1 
 step=$2 # ranges from 0 to num_jobs-1
 #cmd=`tr '*' ' ' <<< $3` # replace * with space
@@ -23,16 +23,13 @@ export VLLM_USAGE_DISABLE=1
 export VLLM_ATTENTION_BACKEND=FLASH_ATTN
 export NCCL_P2P_DISABLE=1
 export OUTLINES_CACHE_DIR='/tmp/.outlines'
-if [ -f .env ]; then
-    set -a  # Automatically export all variables defined in the file
-    source .env
-    set +a
-fi
 export USER=${CHTC_USER}
 export RAY_TMPDIR=/tmp/ray_$USER
 
 # fetch code from /staging/
 CODENAME=llm-starter
+echo "fetching code from /staging/${USER}/${CODENAME}.tar.gz"
+
 cp /staging/${USER}/${CODENAME}.tar.gz .
 tar -xzf ${CODENAME}.tar.gz
 rm ${CODENAME}.tar.gz

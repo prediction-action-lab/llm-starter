@@ -1,10 +1,6 @@
-if [ -f .env ]; then
-    set -a  # Automatically export all variables defined in the file
-    source .env
-    set +a
-fi
+source .env
 
-f=llm-starter-2
+f=llm-starter
 
 cd ../.. # cd just outside the repo
 tar --exclude='.git' \
@@ -13,5 +9,8 @@ tar --exclude='.git' \
 
 USER=${CHTC_USER}
 HOSTNAME="ap2001.chtc.wisc.edu"
+
+echo "Transferring to CHTC: ${USER} to ${HOSTNAME}"
+
 scp ${f}.tar.gz ${USER}@${HOSTNAME}:/staging/${USER}
 rm ${f}.tar.gz
