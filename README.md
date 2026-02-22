@@ -5,6 +5,7 @@ This demo uses verl `v0.7.0`, which is the latest stable version at the time of 
 1. Clone this repo on your local machine. Then, login to CHTC and clone this repo there as well: 
 ```aiignore
 git clone git@github.com:Badger-RL/llm-starter.git
+cd chtc
 ./login_chtc.sh
 git clone git@github.com:Badger-RL/llm-starter.git
 ```
